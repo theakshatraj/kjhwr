@@ -22,19 +22,21 @@ The snapshot was built from Elexon BMRS on **26 October 2026** (UTC). The same C
 
 ---
 
-## 2. AI tools disclosure
+## 2. AI Tools Disclosure
 
-Implementation across this repository was **agent-assisted**. The final deployment, smoke test, README and repository audit (Phases 7–8) were produced with the **OpenCode** coding agent running **DeepSeek V4.1 Flash Free**; earlier phases were completed in the same agent-assisted workflow. Agents proposed code, configuration and documentation; they did not run the live market.
+AI-assisted tools were used during the development of Gridbricks to support implementation, debugging, testing, and documentation. **TRAE was used during the initial development phases**, with ChatGPT and Claude providing additional assistance with technical questions, architecture decisions, debugging, and review.
 
-Review and testing of that output (not a rubber stamp):
+I was responsible for defining the project requirements, directing implementation, integrating the components, and validating the resulting application against the assignment's requirements. AI-generated suggestions and code were reviewed and tested as part of the development process.
 
-- Backend: `pytest` in `backend/` (101 tests at the time of writing), covering cutoff selection, the `E = F − A` sign convention, `max(0, F − P90(E))`, no-look-ahead calibration, the HTTP contract (camelCase JSON vs `frontend/src/types.ts`), and snapshot-backed API checks.
-- Frontend: Vitest unit tests (33), ESLint, `tsc --noEmit` as part of `npm run build`.
-- Data: `backend/scripts/validate_data.py` against the processed snapshot; provenance recorded in `backend/data/provenance.json`.
-- Deployment: `python scripts/smoke_test.py <live-url>` against health, one January decision query, and the January accuracy summary. The live UI and `/api/docs` were then loaded in a fresh browser session with no authoring cookies, and the public repository was fetched through its unauthenticated URL.
+**Verification performed:**
 
-Formulas, coverage percentages and row counts in this README are taken from that snapshot and from the running API, not invented in copy.
+- **Backend:** Automated tests covering forecast cutoff selection, error calculations, calibration logic, API responses, and historical snapshot handling.
+- **Frontend:** Unit tests, ESLint checks, TypeScript validation, and a production build.
+- **Data:** Validation of the processed Elexon BMRS snapshot, with dataset provenance documented in `backend/data/provenance.json`.
+- **Integration:** Docker Compose testing of the frontend, backend, health checks, and API proxy.
+- **Deployment:** Smoke tests and manual checks of the public application and API endpoints.
 
+The application uses historical Elexon BMRS data for its analysis. AI tools assisted with development; they did not generate live market data or make real-time electricity procurement decisions.
 ---
 
 ## 3. Directory and file tree
