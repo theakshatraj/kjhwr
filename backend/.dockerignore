@@ -1,0 +1,27 @@
+# Build context for the API image. The image only needs `app/`, `requirements.txt`
+# and the processed snapshot, so everything else stays out of the context.
+
+# Local virtualenvs
+.venv
+venv
+
+# Bytecode / caches
+__pycache__
+**/__pycache__
+*.py[cod]
+.mypy_cache
+.ruff_cache
+.pytest_cache
+
+# Test and pipeline machinery - not shipped in the runtime image
+tests
+scripts
+
+# The raw Elexon cache is several megabytes and only feeds the offline pipeline.
+data/raw
+data/feasibility_report.txt
+
+# Local secrets and logs
+.env
+.env.*
+*.log

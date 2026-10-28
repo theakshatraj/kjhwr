@@ -1,0 +1,182 @@
+[fetch] wrote data\raw\windfor_raw.json (36208 records)
+Elexon BMRS feasibility spike - UK national wind (FUELHH / WINDFOR)
+generated 2026-10-26T18:33:01Z
+
+==============================================================================
+(a) Base URL, query parameter names, response shape, max range per request
+==============================================================================
+Base URL ............ https://data.elexon.co.uk/bmrs/api/v1
+WINDFOR stream path . /datasets/WINDFOR/stream
+FUELHH stream path .. /datasets/FUELHH/stream
+
+Parameter names (per Elexon API documentation for the stream endpoints):
+  WINDFOR : publishDateTimeFrom, publishDateTimeTo   <- PUBLISH time filter
+  FUELHH  : from, to, fuelType                       <- startTime filter + fuel
+
+Trap to avoid: passing 'from'/'to' to WINDFOR/stream.
+  -> returned 73 rows, publishTime range 2026-10-26T18:30:00Z .. 2026-10-26T18:30:00Z
+  -> the unknown parameters are IGNORED and the LATEST forecast is returned,
+     i.e. it looks like it works but the publish-time filter is not applied.
+
+Correct parameters return only that publish window:
+  -> 73 rows, publishTime 2026-01-14T02:30:00Z .. 2026-01-14T02:30:00Z
+
+Response shape (WINDFOR, raw dataset):
+{
+  "dataset": "WINDFOR",
+  "publishTime": "2026-01-14T02:30:00Z",
+  "startTime": "2026-01-13T21:00:00Z",
+  "generation": 12079
+}
+
+Max date range per single request (empirical probe, WINDFOR):
+    1 days -> OK (584 rows)
+    2 days -> OK (1168 rows)
+    4 days -> OK (2336 rows)
+    7 days -> OK (4088 rows)
+    8 days -> OK (4672 rows)
+   14 days -> OK (8176 rows)
+   31 days -> OK (18104 rows)
+  => largest accepted range observed: 31 days; client chunks at 7 days.
+  FUELHH   1 days -> OK (37 rows)
+  FUELHH   7 days -> OK (37 rows)
+  FUELHH   8 days -> OK (37 rows)
+
+==============================================================================
+(b) WINDFOR returns multiple publishTime versions per startTime
+==============================================================================
+distinct startTime ............ 1537
+total forecast records ........ 36208
+versions-per-startTime histogram (versions: how many startTimes):
+     8 versions : 48 startTimes
+    16 versions : 48 startTimes
+    24 versions : 1382 startTimes
+    32 versions : 59 startTimes
+startTimes with >1 published version: 1537
+=> historical versions ARE retrievable.
+
+==============================================================================
+(c) Publish window needed for January 2026 delivery decisions is present
+==============================================================================
+requested publish window ... 2025-11-30T00:00:00Z .. 2026-01-31T00:00:00Z
+received publishTime range . 2025-11-30T02:30:00Z .. 2026-01-30T22:30:00Z
+distinct publish days ...... 62  (2025-11-30 .. 2026-01-30)
+
+cutoff days required for January delivery days: 31
+cutoff days with NO published forecast on that date: 0
+  none - every January cutoff day has published forecasts available.
+[fetch] wrote data\raw\fuelhh_wind_raw.json (333 records)
+
+==============================================================================
+(d) Sample delivery day 2026-01-15: eligible forecasts before the assumed cutoff
+==============================================================================
+assumed decision cutoff ... 2026-01-14T09:00Z (2026-01-14 09:00 GMT)
+forecast records targeting 2026-01-15 (all vintages): 584
+eligible (publishTime <= cutoff, and published before the target): 248
+native forecast resolution observed on this day: 60 minutes
+  NOTE: the brief assumes 48 half-hour slots, but WINDFOR is natively 60-minute. Delivery intervals are kept at half-hour resolution and the forecast is mapped onto them (disclosed in the UI).
+expected delivery half-hours (London day): 48
+
+delivery half-hours with >=1 eligible forecast: 48 / 48
+no missing half-hours for this delivery day.
+
+native forecast slots covered for 2026-01-15: 24 (of 24 slots present in the raw data)
+
+==============================================================================
+(e) FUELHH WIND actuals coverage, granularity, settlement-period convention
+==============================================================================
+requested  ... 2025-12-01T00:00:00Z .. 2026-02-01T00:00:00Z
+received ... 2026-10-26T00:00:00Z .. 2026-10-26T18:00:00Z
+rows ...... 333
+fuel types present: ['WIND']
+
+sample record:
+{
+  "dataset": "FUELHH",
+  "publishTime": "2026-10-26T18:30:00Z",
+  "startTime": "2026-10-26T18:00:00Z",
+  "settlementDate": "2026-10-26",
+  "settlementPeriod": 37,
+  "fuelType": "WIND",
+  "generation": 15410
+}
+
+observed spacing between consecutive startTime values: [0.0, 30.0] minutes (30 = half-hourly)
+
+settlement-period vs startTime convention:
+  startTime=2026-10-26T18:00:00Z  settlementPeriod=37
+  -> FUELHH carries BOTH a half-hourly startTime and a settlementPeriod.
+     This project keys everything on startTime (UTC); settlementPeriod is kept
+     for reference only, because it is not 1:1 with clock time on DST days.
+
+expected half-hour slots 2025-12-01..2026-02-01: 2976
+missing actuals slots: 2976
+   2025-12-01 00:00 GMT
+   2025-12-01 00:30 GMT
+   2025-12-01 01:00 GMT
+   2025-12-01 01:30 GMT
+   2025-12-01 02:00 GMT
+   2025-12-01 02:30 GMT
+   2025-12-01 03:00 GMT
+   2025-12-01 03:30 GMT
+   2025-12-01 04:00 GMT
+   2025-12-01 04:30 GMT
+   ... and 2966 more (full list in the validation report)
+duplicate/multiple rows per startTime: 296
+
+==============================================================================
+(f) Horizon range (startTime - publishTime) of the forecasts
+==============================================================================
+n records ...... 36208
+min ........... -25.50 h
+P5 ............ -13.50 h
+P25 ........... 3.50 h
+median ........ 21.50 h
+P75 ........... 39.50 h
+P95 ........... 56.50 h
+max ........... 66.50 h
+non-predictive records (publishTime AFTER startTime): 7441
+  (these are excluded from horizon analysis; they are not forecasts)
+
+Selected decision-time forecasts for January 2026:
+  half-hours with a selected forecast: 1488 of 1488
+  horizon min/median/max: 16.50 / 28.00 / 39.50 h
+    2026-01-01: 48 intervals
+    2026-01-02: 48 intervals
+    2026-01-03: 48 intervals
+    2026-01-04: 48 intervals
+    2026-01-05: 48 intervals
+    2026-01-06: 48 intervals
+    2026-01-07: 48 intervals
+    2026-01-08: 48 intervals
+    2026-01-09: 48 intervals
+    2026-01-10: 48 intervals
+    2026-01-11: 48 intervals
+    2026-01-12: 48 intervals
+    2026-01-13: 48 intervals
+    2026-01-14: 48 intervals
+    2026-01-15: 48 intervals
+    2026-01-16: 48 intervals
+    2026-01-17: 48 intervals
+    2026-01-18: 48 intervals
+    2026-01-19: 48 intervals
+    2026-01-20: 48 intervals
+    2026-01-21: 48 intervals
+    2026-01-22: 48 intervals
+    2026-01-23: 48 intervals
+    2026-01-24: 48 intervals
+    2026-01-25: 48 intervals
+    2026-01-26: 48 intervals
+    2026-01-27: 48 intervals
+    2026-01-28: 48 intervals
+    2026-01-29: 48 intervals
+    2026-01-30: 48 intervals
+    2026-01-31: 48 intervals
+
+==============================================================================
+VERDICT
+==============================================================================
+PASS: historical publish versions and the required publish window are retrievable.
+Partial gaps are NOT a blocker: continue with available data, preserve every
+expected delivery interval, flag missing forecasts and report coverage.
+total API requests made in this run: 30

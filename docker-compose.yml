@@ -1,0 +1,50 @@
+# Wind Forecast Decision Portal - full stack.
+#
+#   docker compose up --build     # API on http://localhost:8000, UI on http://localhost:8080
+#
+# The API image bakes in the processed Elexon snapshot (backend/data/processed),
+# so the stack needs no network access and no data download to come up. nginx
+# proxies /api/ to the `api` service, which is why the service is named `api`
+# (see frontend/nginx.conf).
+
+name: wind-forecast-portal
+
+services:
+  api:
+    build:
+      context: ./backend
+    image: wind-forecast-portal-api:local
+    ports:
+      - "8000:8000"
+    healthcheck:
+      # python:3.12-slim ships no curl or wget, so probe with the interpreter.
+      # urlopen raises on a non-2xx response, which fails the check.
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./frontend
+    image: wind-forecast-portal-web:local
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      # nginx:alpine ships busybox wget. Probing /api/health through nginx proves
+      # both that the SPA is being served and that the proxy to the API works.
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped

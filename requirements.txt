@@ -1,0 +1,15 @@
+# Runtime dependencies for the deployed Vercel function (api/index.py).
+#
+# Pinned to the same versions as backend/requirements.txt so the deployed app and
+# a local run behave identically. Two deliberate omissions keep the serverless
+# bundle small:
+#
+#   * pyarrow - the function reads the CSV mirror of the snapshot, not parquet,
+#     so the ~100 MB parquet engine is not shipped.
+#   * requests / pytest / httpx / uvicorn - fetch-and-test tooling that the
+#     request path never imports (see backend/requirements.txt for those).
+fastapi==0.115.6
+pandas==2.2.3
+pydantic==2.10.4
+python-dateutil==2.9.0.post0
+tzdata==2025.2

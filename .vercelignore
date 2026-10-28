@@ -1,0 +1,37 @@
+# Files that must not be uploaded to Vercel.
+#
+# The function bundle is governed by `includeFiles` in vercel.json, so anything
+# it needs (backend/app, the CSV snapshot, provenance.json) must NOT appear here.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/screenshots/
+
+# Raw Elexon JSON (4.8 MB) is regenerable with `make fetch-data` and is not read
+# by the request path - only scripts/fetch_data.py uses it.
+backend/data/raw/
+backend/data/feasibility_report.txt
+
+# Parquet needs pyarrow (~100 MB). The function reads the CSV mirrors instead.
+backend/data/processed/*.parquet
+frontend/screenshots/
+
+backend/tests/
+backend/scripts/
+api/__pycache__/
+
+.git/
+.github/
+Makefile
+docker-compose.yml
+.env
+.env.*
+*.log

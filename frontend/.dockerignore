@@ -1,0 +1,19 @@
+# Build context for the frontend image. Keep node_modules and build output out of
+# the context; the image installs its own dependencies and runs the build itself.
+
+node_modules
+dist
+coverage
+.vite
+
+# Local env files and logs
+.env
+.env.*
+*.local
+npm-debug.log*
+yarn-error.log*
+
+# Read by nginx/the builder from the image, not needed in the context twice
+Dockerfile
+.dockerignore
+screenshots

@@ -1,0 +1,217 @@
+{
+  "generated_at_utc": "2026-10-26T18:52:11.516975+00:00",
+  "snapshot_notice": "Fixed historical analysis snapshot built from Elexon BMRS. Not a live trading system.",
+  "source": {
+    "provider": "Elexon Insights Solution (BMRS)",
+    "base_url": "https://data.elexon.co.uk/bmrs/api/v1",
+    "datasets": {
+      "forecasts": {
+        "dataset": "WINDFOR",
+        "path": "/datasets/WINDFOR/stream",
+        "parameters": {
+          "publishDateTimeFrom": "2025-11-30T00:00:00Z",
+          "publishDateTimeTo": "2026-01-31T00:00:00Z"
+        },
+        "note": "Filtered on PUBLISH time. Passing from/to instead is silently ignored and returns only the latest forecast."
+      },
+      "actuals": {
+        "dataset": "FUELHH",
+        "path": "/datasets/FUELHH/stream",
+        "parameters": {
+          "settlementDateFrom": "2025-12-01",
+          "settlementDateTo": "2026-01-31",
+          "fuelType": "WIND"
+        }
+      }
+    },
+    "attribution": "Contains data from Elexon Insights Solution / BMRS (https://bmrs.elexon.co.uk), licensed under the Elexon Open Data Licence. Data is used for historical analysis only.",
+    "licence": "Elexon Open Data Licence - reuse permitted with attribution to Elexon. Redistribution must keep this attribution and licence note."
+  },
+  "request_log": [
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2025-11-30T00:00:00Z",
+        "publishDateTimeTo": "2025-12-07T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2025-12-07T00:00:00Z",
+        "publishDateTimeTo": "2025-12-14T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2025-12-14T00:00:00Z",
+        "publishDateTimeTo": "2025-12-21T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2025-12-21T00:00:00Z",
+        "publishDateTimeTo": "2025-12-28T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2025-12-28T00:00:00Z",
+        "publishDateTimeTo": "2026-01-04T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2026-01-04T00:00:00Z",
+        "publishDateTimeTo": "2026-01-11T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2026-01-11T00:00:00Z",
+        "publishDateTimeTo": "2026-01-18T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2026-01-18T00:00:00Z",
+        "publishDateTimeTo": "2026-01-25T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "WINDFOR",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/WINDFOR/stream",
+      "params": {
+        "publishDateTimeFrom": "2026-01-25T00:00:00Z",
+        "publishDateTimeTo": "2026-01-31T00:00:00Z"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "FUELHH",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELHH/stream",
+      "params": {
+        "settlementDateFrom": "2025-12-01",
+        "settlementDateTo": "2025-12-28",
+        "fuelType": "WIND"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "FUELHH",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELHH/stream",
+      "params": {
+        "settlementDateFrom": "2025-12-29",
+        "settlementDateTo": "2026-01-25",
+        "fuelType": "WIND"
+      },
+      "served_from_cache": true,
+      "rows": null
+    },
+    {
+      "dataset": "FUELHH",
+      "url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELHH/stream",
+      "params": {
+        "settlementDateFrom": "2026-01-26",
+        "settlementDateTo": "2026-01-31",
+        "fuelType": "WIND"
+      },
+      "served_from_cache": true,
+      "rows": null
+    }
+  ],
+  "row_counts": {
+    "raw_forecast_records": 36208,
+    "raw_actual_records": 2976,
+    "processed_forecast_records": 36208,
+    "processed_actual_records": 2976
+  },
+  "cleaning_counts": {
+    "forecasts": {
+      "raw_rows": 36208,
+      "dropped_duplicates": 0,
+      "dropped_null_generation": 0
+    },
+    "actuals": {
+      "raw_rows": 2976,
+      "dropped_revisions": 0,
+      "dropped_null_generation": 0
+    }
+  },
+  "coverage": {
+    "actuals_expected_intervals": 2976,
+    "actuals_present_intervals": 2976,
+    "actuals_missing_intervals": 0,
+    "actuals_missing_sample": []
+  },
+  "ranges": {
+    "forecast_start_time": {
+      "count": 36208,
+      "min": "2025-11-29T21:00:00+00:00",
+      "max": "2026-02-01T21:00:00+00:00"
+    },
+    "forecast_publish_time": {
+      "count": 36208,
+      "min": "2025-11-30T02:30:00+00:00",
+      "max": "2026-01-30T22:30:00+00:00"
+    },
+    "actual_start_time": {
+      "count": 2976,
+      "min": "2025-12-01T00:00:00+00:00",
+      "max": "2026-01-31T23:30:00+00:00"
+    }
+  },
+  "resolution": {
+    "forecast_interval_minutes": 60,
+    "settlement_interval_minutes": 30,
+    "settlement_half_hours_per_forecast_value": 2,
+    "measured_note": "Measured from the raw snapshot (see data/feasibility_report.txt): WINDFOR publishes one MW value per hour (24 per day) with startTime at the top of the hour, while FUELHH publishes one MW value per settlement half-hour (48 per normal day). Each hourly forecast value therefore maps onto exactly two settlement half-hours. Accuracy metrics must align at native resolution: report both unique forecast intervals and display half-hours, and never count the same hourly value as two independent observations."
+  },
+  "cleaning_steps": [
+    "parse startTime/publishTime as timezone-aware UTC datetimes",
+    "coerce generation to numeric MW",
+    "drop rows whose generation is null (counted in cleaning_counts)",
+    "drop exact duplicate (start_time, publish_time) forecast rows",
+    "for actuals keep one row per start_time, preferring the latest revision",
+    "sort by start_time then publish_time",
+    "assert start_time and publish_time are non-null",
+    "derive horizon_hours = (start_time - publish_time) / 1h",
+    "NO gap filling: missing intervals are reported, never zero-filled"
+  ],
+  "known_deviations": [
+    "WINDFOR is natively hourly (24 slots/day), not half-hourly as the brief assumes; delivery intervals remain half-hourly and the hourly value is applied to both constituent half-hours without interpolation.",
+    "The decision cutoff time is an ASSUMPTION (default 09:00 Europe/London on D-1), not an official gate closure."
+  ]
+}
